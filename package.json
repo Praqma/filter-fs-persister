@@ -1,0 +1,26 @@
+{
+  "name": "filterfspersister",
+  "version": "1.0.0",
+  "description": "A polly.js persister that replaces sensitive fields in the data",
+  "main": "filterFsPersister.js",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "'fix-me'"
+  },
+  "keywords": [
+    "polly-js",
+    "integration-testing"
+  ],
+  "author": "Ester Daniel Ytterbrink",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1"
+  },
+  "dependencies": {
+    "@pollyjs/persister-fs": "^5.0.0"
+  }
+}
