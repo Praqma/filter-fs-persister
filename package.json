@@ -1,5 +1,5 @@
 {
-  "name": "filterfspersister",
+  "name": "filter-fs-persister",
   "version": "1.0.0",
   "description": "A polly.js persister that replaces sensitive fields in the data",
   "main": "filterFsPersister.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "'fix-me'"
+    "url": "https://github.com/Praqma/filter-fs-persister"
   },
   "keywords": [
     "polly-js",
