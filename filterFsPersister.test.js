@@ -127,6 +127,35 @@ let timeEntriesOut = {
     }
 }
 
+let deepNested = {
+    "log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "text": "{\"data\": [{\"title\": {\"project\": \"Project 1\",\"client\": \"Customer 1\"},\"items\":[{\"title\": {\"user\": \"Person 1\"}}]},{\"title\": {\"project\": \"Project 1\",\"client\": \"Customer 1\"},\"items\": [{\"title\": {\"user\": \"Person 2\"}},{\"title\": {\"user\": \"Person 1\"}}]}]}"
+                    }
+                }
+            }
+            ]
+    }
+}
+let deepNestedOut = {
+    "log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "text": "{\"data\":[{\"title\":{\"project\":\"project 1\",\"client\":\"client 1\"},\"items\":[{\"title\":{\"user\":\"user 1\"}}]},{\"title\":{\"project\":\"project 1\",\"client\":\"client 1\"},\"items\":[{\"title\":{\"user\":\"user 2\"}},{\"title\":{\"user\":\"user 1\"}}]}]}"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+
+
 describe('filter data', () => {
 
     it('does nothing without options', () =>{
@@ -153,5 +182,10 @@ describe('filter data', () => {
         let options = {filter: ['client', 'project', 'user'], path:'data'}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(timeEntries)).to.eql(timeEntriesOut)
+    })
+    it('filters when nested differently', () =>{
+        let options = {filter: ['client', 'project', 'user'], path:'data'}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(deepNested)).to.eql(deepNestedOut)
     })
 })
