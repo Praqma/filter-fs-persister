@@ -18,7 +18,7 @@ let oneEntryIn = {
         "entries": [
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"foo\",\"fullname\":\"bar\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"foo\",\"fullname\":\"buzz\"}]"
+                        "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
             }
@@ -30,7 +30,7 @@ let onlyReplaceEmail = {
         "entries": [
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"email 1\",\"fullname\":\"bar\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"email 1\",\"fullname\":\"buzz\"}]"
+                        "text": "[{\"email\":\"email 1\",\"fullname\":\"bar\"},{\"email\":\"email 1\",\"fullname\":\"buzz\"}]"
                     }
                 }
             }
@@ -42,7 +42,7 @@ let replaceEmailAndFullname = {
         "entries": [
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
+                        "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
                     }
                 }
             }
@@ -54,13 +54,13 @@ let twoEntries = {
         "entries": [
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"foo\",\"fullname\":\"bar\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"foo\",\"fullname\":\"buzz\"}]"
+                        "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
             },
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"foo\",\"fullname\":\"bar\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"fizz\",\"fullname\":\"razz\"}]"
+                        "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"fizz\",\"fullname\":\"razz\"}]"
                     }
                 }
             }
@@ -72,13 +72,13 @@ let twoEntriesOut = {
         "entries": [
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
+                        "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
                     }
                 }
             },
             {"response": {
                     "content": {
-                        "text": "[{\"id\":5878303,\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"id\":5113096,\"default_wid\":4343687,\"email\":\"email 2\",\"fullname\":\"fullname 3\"}]"
+                        "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 2\",\"fullname\":\"fullname 3\"}]"
                     }
                 }
             }
@@ -92,14 +92,14 @@ let timeEntries = {
         {
             "response": {
                 "content": {
-                    "text": "{\"total_currencies\":[{\"currency\":\"SEK\",\"amount\":6086.81}],\"total_count\":129,\"per_page\":50,\"data\":[{\"id\":1601558640,\"user\":\"Busy Person 1\",\"use_stop\":true,\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"id\":1601486085,\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+                    "text": "{\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
                 }
             }
         },
         {
             "response": {
                 "content": {
-                    "text": "{\"total_currencies\":[{\"currency\":\"SEK\",\"amount\":6086.81}],\"total_count\":129,\"per_page\":50,\"data\":[{\"id\":1601558640,\"user\":\"Busy Person 3\",\"use_stop\":true,\"client\":\"Big client 2\",\"project\":\"Huge project 2\"},{\"id\":1601486085,\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+                    "text": "{\"data\":[{\"user\":\"Busy Person 3\",\"client\":\"Big client 2\",\"project\":\"Huge project 2\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
                 }
             }
         }
@@ -112,14 +112,14 @@ let timeEntriesOut = {
             {
                 "response": {
                     "content": {
-                        "text": "{\"total_currencies\":[{\"currency\":\"SEK\",\"amount\":6086.81}],\"total_count\":129,\"per_page\":50,\"data\":[{\"id\":1601558640,\"user\":\"user 1\",\"use_stop\":true,\"client\":\"client 1\",\"project\":\"project 1\"},{\"id\":1601486085,\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
+                        "text": "{\"data\":[{\"user\":\"user 1\",\"client\":\"client 1\",\"project\":\"project 1\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
                     }
                 }
             },
             {
                 "response": {
                     "content": {
-                        "text": "{\"total_currencies\":[{\"currency\":\"SEK\",\"amount\":6086.81}],\"total_count\":129,\"per_page\":50,\"data\":[{\"id\":1601558640,\"user\":\"user 3\",\"use_stop\":true,\"client\":\"client 2\",\"project\":\"project 2\"},{\"id\":1601486085,\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
+                        "text": "{\"data\":[{\"user\":\"user 3\",\"client\":\"client 2\",\"project\":\"project 2\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
                     }
                 }
             }
