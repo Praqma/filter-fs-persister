@@ -25,6 +25,22 @@ let oneEntryIn = {
         ]
     }
 }
+
+let replaceNothing = {
+    "log": {
+        "entries": [
+            {"response": {
+                    "content": {
+                        "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+
+
 let onlyReplaceEmail = {
     "log": {
         "entries": [
@@ -92,7 +108,7 @@ let timeEntries = {
         {
             "response": {
                 "content": {
-                    "text": "{\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+                    "text": "{\"user\":\"Busy Person 1\",\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
                 }
             }
         },
@@ -112,7 +128,7 @@ let timeEntriesOut = {
             {
                 "response": {
                     "content": {
-                        "text": "{\"data\":[{\"user\":\"user 1\",\"client\":\"client 1\",\"project\":\"project 1\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
+                        "text": "{\"user\":\"user 1\",\"data\":[{\"user\":\"user 1\",\"client\":\"client 1\",\"project\":\"project 1\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
                     }
                 }
             },
@@ -154,13 +170,37 @@ let deepNestedOut = {
     }
 }
 
+let keywordWithArray = {"log": {
+    "entries": [
+        {
+            "response": {
+                "content": {
+                    "text": "{\"data\":[\"foo\"]}"
+                }
+            }
+        }
+    ]
+}
+}
+let keywordWithArrayOut = {"log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "text": "{\"data\":[\"foo\"]}"
+                    }
+                }
+            }
+        ]
+    }
+}
 
 
 describe('filter data', () => {
 
     it('does nothing without options', () =>{
         const persister = new FilterFsPersister(new MockPolly())
-        expect(persister.filterRecording(oneEntryIn)).to.eql(oneEntryIn)
+        expect(persister.filterRecording(oneEntryIn)).to.eql(replaceNothing)
     })
     it('filter email and use same replacement if value is the same ', () =>{
         let options = {filter: ['email']}
@@ -187,5 +227,10 @@ describe('filter data', () => {
         let options = {filter: ['client', 'project', 'user'], path:'data'}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(deepNested)).to.eql(deepNestedOut)
+    })
+    it('only replaces strings', () =>{
+        let options = {filter: ['data']}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(keywordWithArray)).to.eql(keywordWithArrayOut)
     })
 })

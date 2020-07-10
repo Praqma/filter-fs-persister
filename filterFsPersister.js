@@ -3,17 +3,16 @@ const FSPersister  = require( "@pollyjs/persister-fs" )
 const { parse } = JSON;
 
 module.exports =  class FilteringFSPersister extends FSPersister {
-  
+
+  encounters;
+
   filterRecording(data) {
     if(this.options && this.options.filter){
-      let encounters = new Map()
+      this.setupReplacementDictionary();
       data.log.entries.forEach((entry)=>{
         let text = JSON.parse(entry.response.content.text);
         let filtered = this.options.filter.reduce((acc, value)=>{
-          if(encounters[value] === undefined){
-            encounters[value] =  Array()
-          }
-          return this.replaceWord(acc, value, encounters);
+          return this.replaceWord(acc, value);
         }, text)
         entry.response.content.text = JSON.stringify(filtered)
       })
@@ -21,30 +20,39 @@ module.exports =  class FilteringFSPersister extends FSPersister {
     return data;
   }
 
+  setupReplacementDictionary() {
+    this.encounters = new Map()
+    this.options.filter.forEach(item => {
+      this.encounters[item] = Array()
+    })
+  }
+
   replaceWord(acc, toReplace, encounters) {
     if(Array.isArray(acc)) {
       return acc.map((item) => {
-        return this.replaceWord(item, toReplace, encounters)
+        return this.replaceWord(item, toReplace)
       })
     }
     if(acc instanceof Object){
       for( const [key, value ] of Object.entries(acc)){
-        if(key === toReplace){
-            acc[key] = this.findReplacement(encounters, key, value)
-          }else{
-          acc[key] = this.replaceWord(value, toReplace, encounters)
+        if(value instanceof Object){
+          acc[key] = this.replaceWord(value, toReplace)
+        }else{
+          if(key === toReplace){
+            acc[key] = this.findReplacement(toReplace, value)
           }
+        }
       }
-      return acc;
+      return acc
     }
-    return acc;
+    return acc
   }
 
-  findReplacement(encounters, toReplace, sensitiveWord) {
-    let index = encounters[toReplace].indexOf(sensitiveWord);
+  findReplacement(toReplace, sensitiveWord) {
+    let index = this.encounters[toReplace].indexOf(sensitiveWord);
     if (index === -1) {
-      encounters[toReplace].push(sensitiveWord)
-      index = encounters[toReplace].indexOf(sensitiveWord)
+      this.encounters[toReplace].push(sensitiveWord)
+      index = this.encounters[toReplace].indexOf(sensitiveWord)
     }
      return `${toReplace} ${index + 1}`
   }
