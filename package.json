@@ -1,6 +1,6 @@
 {
   "name": "filter-fs-persister",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A polly.js persister that replaces sensitive fields in the data",
   "main": "filterFsPersister.js",
   "scripts": {
