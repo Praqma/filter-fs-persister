@@ -194,7 +194,18 @@ let keywordWithArrayOut = {"log": {
         ]
     }
 }
-
+let errorAsHTML = {"log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
 
 describe('filter data', () => {
 
@@ -232,5 +243,16 @@ describe('filter data', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(keywordWithArray)).to.eql(keywordWithArrayOut)
+    })
+    it('throws a nice error when trying to parse non JSON claimed to be JSON', () =>{
+        let options = {filter: ['data']}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        try{
+            persister.filterRecording(errorAsHTML)
+            throw new Error('This error should not be thrown')
+        }catch(error){
+            expect(error).to.be.instanceOf(Error)
+            expect(error.message).to.eql("<html><body>Error!</... can not be parsed as JSON!")
+        }
     })
 })
