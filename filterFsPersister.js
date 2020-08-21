@@ -10,16 +10,18 @@ module.exports =  class FilteringFSPersister extends FSPersister {
     if(this.options && this.options.filter){
       this.setupReplacementDictionary();
       data.log.entries.forEach((entry)=>{
-        let text;
-        try {
-          text = JSON.parse(entry.response.content.text);
-        }catch (e) {
-          throw new Error(`${entry.response.content.text.substring(0,20)}... can not be parsed as JSON!`)
+        if(entry.response.content.mimeType.indexOf("application/json")>=0) {
+          let text;
+          try {
+            text = JSON.parse(entry.response.content.text);
+          } catch (e) {
+            throw new Error(`${entry.response.content.text.substring(0, 20)}... can not be parsed as JSON!`)
+          }
+          let filtered = this.options.filter.reduce((acc, value) => {
+            return this.replaceWord(acc, value);
+          }, text)
+          entry.response.content.text = JSON.stringify(filtered)
         }
-        let filtered = this.options.filter.reduce((acc, value)=>{
-          return this.replaceWord(acc, value);
-        }, text)
-        entry.response.content.text = JSON.stringify(filtered)
       })
     }
     return data;

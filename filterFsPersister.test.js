@@ -18,6 +18,7 @@ let oneEntryIn = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
@@ -31,6 +32,7 @@ let replaceNothing = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
@@ -46,6 +48,7 @@ let onlyReplaceEmail = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"bar\"},{\"email\":\"email 1\",\"fullname\":\"buzz\"}]"
                     }
                 }
@@ -58,6 +61,7 @@ let replaceEmailAndFullname = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
                     }
                 }
@@ -70,12 +74,14 @@ let twoEntries = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
             },
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"fizz\",\"fullname\":\"razz\"}]"
                     }
                 }
@@ -88,12 +94,14 @@ let twoEntriesOut = {
         "entries": [
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
                     }
                 }
             },
             {"response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 2\",\"fullname\":\"fullname 3\"}]"
                     }
                 }
@@ -108,6 +116,7 @@ let timeEntries = {
         {
             "response": {
                 "content": {
+                    "mimeType": "application/json; charset=utf-8",
                     "text": "{\"user\":\"Busy Person 1\",\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
                 }
             }
@@ -115,6 +124,7 @@ let timeEntries = {
         {
             "response": {
                 "content": {
+                    "mimeType": "application/json; charset=utf-8",
                     "text": "{\"data\":[{\"user\":\"Busy Person 3\",\"client\":\"Big client 2\",\"project\":\"Huge project 2\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
                 }
             }
@@ -128,6 +138,7 @@ let timeEntriesOut = {
             {
                 "response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "{\"user\":\"user 1\",\"data\":[{\"user\":\"user 1\",\"client\":\"client 1\",\"project\":\"project 1\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
                     }
                 }
@@ -135,6 +146,7 @@ let timeEntriesOut = {
             {
                 "response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "{\"data\":[{\"user\":\"user 3\",\"client\":\"client 2\",\"project\":\"project 2\"},{\"user\":\"user 2\",\"client\":\"client 1\",\"project\":\"project 1\"}]}"
                     }
                 }
@@ -149,6 +161,7 @@ let deepNested = {
             {
                 "response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "{\"data\": [{\"title\": {\"project\": \"Project 1\",\"client\": \"Customer 1\"},\"items\":[{\"title\": {\"user\": \"Person 1\"}}]},{\"title\": {\"project\": \"Project 1\",\"client\": \"Customer 1\"},\"items\": [{\"title\": {\"user\": \"Person 2\"}},{\"title\": {\"user\": \"Person 1\"}}]}]}"
                     }
                 }
@@ -162,6 +175,7 @@ let deepNestedOut = {
             {
                 "response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "{\"data\":[{\"title\":{\"project\":\"project 1\",\"client\":\"client 1\"},\"items\":[{\"title\":{\"user\":\"user 1\"}}]},{\"title\":{\"project\":\"project 1\",\"client\":\"client 1\"},\"items\":[{\"title\":{\"user\":\"user 2\"}},{\"title\":{\"user\":\"user 1\"}}]}]}"
                     }
                 }
@@ -175,6 +189,7 @@ let keywordWithArray = {"log": {
         {
             "response": {
                 "content": {
+                    "mimeType": "application/json; charset=utf-8",
                     "text": "{\"data\":[\"foo\"]}"
                 }
             }
@@ -187,6 +202,7 @@ let keywordWithArrayOut = {"log": {
             {
                 "response": {
                     "content": {
+                            "mimeType": "application/json; charset=utf-8",
                         "text": "{\"data\":[\"foo\"]}"
                     }
                 }
@@ -194,11 +210,12 @@ let keywordWithArrayOut = {"log": {
         ]
     }
 }
-let errorAsHTML = {"log": {
+let errorHTMLAsJSON = {"log": {
         "entries": [
             {
                 "response": {
                     "content": {
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "<html><body>Error!</body></html>"
                     }
                 }
@@ -207,6 +224,32 @@ let errorAsHTML = {"log": {
     }
 }
 
+let errorHTMLAsHTMLIn = {"log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+let errorHTMLAsHTMLOut = {"log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
 describe('filter data', () => {
 
     it('does nothing without options', () =>{
@@ -248,11 +291,16 @@ describe('filter data', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
         try{
-            persister.filterRecording(errorAsHTML)
+            persister.filterRecording(errorHTMLAsJSON)
             throw new Error('This error should not be thrown')
         }catch(error){
             expect(error).to.be.instanceOf(Error)
             expect(error.message).to.eql("<html><body>Error!</... can not be parsed as JSON!")
         }
+    })
+    it('do not modify HTML', () =>{
+        let options = {filter: ['data']}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(errorHTMLAsHTMLIn)).to.eql(errorHTMLAsHTMLOut)
     })
 })
