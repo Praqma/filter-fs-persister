@@ -371,6 +371,68 @@ let withTestId = {
         ]
     }
 }
+let secretURL = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [
+                        {
+                            "name": "user_id",
+                            "value": "test id"
+                        }
+                    ],
+                    "url": "a very secret url with my user_id"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+let testUrl = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [
+                        {
+                            "name": "user_id",
+                            "value": "test id"
+                        }
+                    ],
+                    "url": "testUrl"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
 
 
 
@@ -436,5 +498,10 @@ describe('filter data', () => {
         let options = { filter: ['data'], substitute: {request:{queryString:{user_id: 'test id'}}}}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(withRealId)).to.eql(withTestId)
+    })
+    it('can set another url', ()=>{
+        let options = { filter: ['data'], substitute: {request:{url:'testUrl'}}}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(secretURL)).to.eql(testUrl)
     })
 })

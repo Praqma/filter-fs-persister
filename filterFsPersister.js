@@ -43,12 +43,16 @@ module.exports =  class FilteringFSPersister extends FSPersister {
           parameter['value'] = options[parameter.name]
         }
       })
-    }else{
+    }else if (entry instanceof Object){
       for( const [key, value ] of Object.entries(options)){
-        this.substitute(value, entry[key])
+        entry[key] = this.substitute(value, entry[key])
       }
+    }else{
+      return options
     }
+    return entry
   }
+
 
   setupReplacementDictionary() {
     this.encounters = new Map()
