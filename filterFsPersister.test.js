@@ -7,16 +7,17 @@ class MockPolly {
     constructor(persisterOptions = {}) {
         this.config = {
             persisterOptions: {
-                'filter-fs': persisterOptions || {} }
+                'filter-fs': persisterOptions || {}
+            }
         };
     }
 }
 
-
 let oneEntryIn = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
@@ -30,7 +31,8 @@ let oneEntryIn = {
 let replaceNothing = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
@@ -42,11 +44,11 @@ let replaceNothing = {
 }
 
 
-
 let onlyReplaceEmail = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"bar\"},{\"email\":\"email 1\",\"fullname\":\"buzz\"}]"
@@ -59,7 +61,8 @@ let onlyReplaceEmail = {
 let replaceEmailAndFullname = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
@@ -72,14 +75,16 @@ let replaceEmailAndFullname = {
 let twoEntries = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"foo\",\"fullname\":\"buzz\"}]"
                     }
                 }
             },
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"foo\",\"fullname\":\"bar\"},{\"email\":\"fizz\",\"fullname\":\"razz\"}]"
@@ -92,14 +97,16 @@ let twoEntries = {
 let twoEntriesOut = {
     "log": {
         "entries": [
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 1\",\"fullname\":\"fullname 2\"}]"
                     }
                 }
             },
-            {"response": {
+            {
+                "response": {
                     "content": {
                         "mimeType": "application/json; charset=utf-8",
                         "text": "[{\"email\":\"email 1\",\"fullname\":\"fullname 1\"},{\"email\":\"email 2\",\"fullname\":\"fullname 3\"}]"
@@ -112,25 +119,25 @@ let twoEntriesOut = {
 
 let timeEntries = {
     "log": {
-    "entries": [
-        {
-            "response": {
-                "content": {
-                    "mimeType": "application/json; charset=utf-8",
-                    "text": "{\"user\":\"Busy Person 1\",\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "mimeType": "application/json; charset=utf-8",
+                        "text": "{\"user\":\"Busy Person 1\",\"data\":[{\"user\":\"Busy Person 1\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+                    }
+                }
+            },
+            {
+                "response": {
+                    "content": {
+                        "mimeType": "application/json; charset=utf-8",
+                        "text": "{\"data\":[{\"user\":\"Busy Person 3\",\"client\":\"Big client 2\",\"project\":\"Huge project 2\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
+                    }
                 }
             }
-        },
-        {
-            "response": {
-                "content": {
-                    "mimeType": "application/json; charset=utf-8",
-                    "text": "{\"data\":[{\"user\":\"Busy Person 3\",\"client\":\"Big client 2\",\"project\":\"Huge project 2\"},{\"user\":\"Busy Person 2\",\"client\":\"Big client 1\",\"project\":\"Huge project 1\"}]}"
-                }
-            }
-        }
-]
-}
+        ]
+    }
 }
 let timeEntriesOut = {
     "log": {
@@ -166,7 +173,7 @@ let deepNested = {
                     }
                 }
             }
-            ]
+        ]
     }
 }
 let deepNestedOut = {
@@ -184,25 +191,13 @@ let deepNestedOut = {
     }
 }
 
-let keywordWithArray = {"log": {
-    "entries": [
-        {
-            "response": {
-                "content": {
-                    "mimeType": "application/json; charset=utf-8",
-                    "text": "{\"data\":[\"foo\"]}"
-                }
-            }
-        }
-    ]
-}
-}
-let keywordWithArrayOut = {"log": {
+let keywordWithArray = {
+    "log": {
         "entries": [
             {
                 "response": {
                     "content": {
-                            "mimeType": "application/json; charset=utf-8",
+                        "mimeType": "application/json; charset=utf-8",
                         "text": "{\"data\":[\"foo\"]}"
                     }
                 }
@@ -210,7 +205,22 @@ let keywordWithArrayOut = {"log": {
         ]
     }
 }
-let errorHTMLAsJSON = {"log": {
+let keywordWithArrayOut = {
+    "log": {
+        "entries": [
+            {
+                "response": {
+                    "content": {
+                        "mimeType": "application/json; charset=utf-8",
+                        "text": "{\"data\":[\"foo\"]}"
+                    }
+                }
+            }
+        ]
+    }
+}
+let errorHTMLAsJSON = {
+    "log": {
         "entries": [
             {
                 "response": {
@@ -224,7 +234,8 @@ let errorHTMLAsJSON = {"log": {
     }
 }
 
-let errorHTMLAsHTMLIn = {"log": {
+let errorHTMLAsHTMLIn = {
+    "log": {
         "entries": [
             {
                 "response": {
@@ -237,7 +248,8 @@ let errorHTMLAsHTMLIn = {"log": {
         ]
     }
 }
-let errorHTMLAsHTMLOut = {"log": {
+let errorHTMLAsHTMLOut = {
+    "log": {
         "entries": [
             {
                 "response": {
@@ -256,19 +268,12 @@ let withAuthToken = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
                     "headers": [
                         {
                             "name": "authorization",
                             "value": "A very secret token"
                         }
-                    ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
-                    "queryString": [],
-                    "url": "the url"
+                    ]
                 },
                 "response": {
                     "content": {
@@ -285,19 +290,12 @@ let filteredAuthToken = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
                     "headers": [
                         {
                             "name": "authorization",
                             "value": "Test token"
                         }
                     ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
-                    "queryString": [],
-                    "url": "the url"
                 },
                 "response": {
                     "content": {
@@ -314,14 +312,6 @@ let withRealId = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
-                    "headers": [
-
-                    ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
                     "queryString": [
                         {
                             "name": "user_id",
@@ -345,20 +335,12 @@ let withTestId = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
-                    "headers": [
-
-                    ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
                     "queryString": [
                         {
                             "name": "user_id",
                             "value": "test id"
                         }
-                        ],
+                    ],
                     "url": "the url"
                 },
                 "response": {
@@ -376,20 +358,6 @@ let secretURL = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
-                    "headers": [
-
-                    ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
-                    "queryString": [
-                        {
-                            "name": "user_id",
-                            "value": "test id"
-                        }
-                    ],
                     "url": "a very secret url with my user_id"
                 },
                 "response": {
@@ -407,20 +375,6 @@ let testUrl = {
         "entries": [
             {
                 "request": {
-                    "bodySize": 0,
-                    "cookies": [],
-                    "headers": [
-
-                    ],
-                    "headersSize": 198,
-                    "httpVersion": "HTTP/1.1",
-                    "method": "GET",
-                    "queryString": [
-                        {
-                            "name": "user_id",
-                            "value": "test id"
-                        }
-                    ],
                     "url": "testUrl"
                 },
                 "response": {
@@ -429,78 +383,78 @@ let testUrl = {
                         "text": "<html><body>Error!</body></html>"
                     }
                 }
+
             }
         ]
     }
 }
 
 
-
 describe('filter data', () => {
 
-    it('does nothing without options', () =>{
+    it('does nothing without options', () => {
         const persister = new FilterFsPersister(new MockPolly())
         expect(persister.filterRecording(oneEntryIn)).to.eql(replaceNothing)
     })
-    it('filter email and use same replacement if value is the same ', () =>{
+    it('filter email and use same replacement if value is the same ', () => {
         let options = {filter: ['email']}
         const persister = new FilterFsPersister(new MockPolly(options))
 
         expect(persister.filterRecording(oneEntryIn)).to.eql(onlyReplaceEmail)
     })
-    it('filter email and fullname', () =>{
+    it('filter email and fullname', () => {
         let options = {filter: ['email', 'fullname']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(oneEntryIn)).to.eql(replaceEmailAndFullname)
     })
-    it('filter email and fullname for two entries', () =>{
+    it('filter email and fullname for two entries', () => {
         let options = {filter: ['email', 'fullname']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(twoEntries)).to.eql(twoEntriesOut)
     })
-    it('filters client, user and project for with a path to the sensitive data', () =>{
-        let options = {filter: ['client', 'project', 'user'], path:'data'}
+    it('filters client, user and project for with a path to the sensitive data', () => {
+        let options = {filter: ['client', 'project', 'user']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(timeEntries)).to.eql(timeEntriesOut)
     })
-    it('filters when nested differently', () =>{
-        let options = {filter: ['client', 'project', 'user'], path:'data'}
+    it('filters when nested differently', () => {
+        let options = {filter: ['client', 'project', 'user']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(deepNested)).to.eql(deepNestedOut)
     })
-    it('only replaces strings', () =>{
+    it('only replaces strings', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(keywordWithArray)).to.eql(keywordWithArrayOut)
     })
-    it('throws a nice error when trying to parse non JSON claimed to be JSON', () =>{
+    it('throws a nice error when trying to parse non JSON claimed to be JSON', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
-        try{
+        try {
             persister.filterRecording(errorHTMLAsJSON)
             throw new Error('This error should not be thrown')
-        }catch(error){
+        } catch (error) {
             expect(error).to.be.instanceOf(Error)
             expect(error.message).to.eql("<html><body>Error!</... can not be parsed as JSON!")
         }
     })
-    it('do not modify HTML', () =>{
+    it('do not modify HTML', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(errorHTMLAsHTMLIn)).to.eql(errorHTMLAsHTMLOut)
     })
-    it('can filter out request headers', ()=>{
-       let options = { filter: ['data'], substitute: {request:{headers:{authorization: 'Test token'}}}}
-       const persister = new FilterFsPersister(new MockPolly(options))
-       expect(persister.filterRecording(withAuthToken)).to.eql(filteredAuthToken)
+    it('can filter out request headers', () => {
+        let options = {filter: ['data'], substitute: {request: {headers: {authorization: 'Test token'}}}}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(withAuthToken)).to.eql(filteredAuthToken)
     })
-    it('can filter out request parameters', ()=>{
-        let options = { filter: ['data'], substitute: {request:{queryString:{user_id: 'test id'}}}}
+    it('can filter out request parameters', () => {
+        let options = {filter: ['data'], substitute: {request: {queryString: {user_id: 'test id'}}}}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(withRealId)).to.eql(withTestId)
     })
-    it('can set another url', ()=>{
-        let options = { filter: ['data'], substitute: {request:{url:'testUrl'}}}
+    it('can set another url', () => {
+        let options = {filter: ['data'], substitute: {request: {url: 'testUrl'}}}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(secretURL)).to.eql(testUrl)
     })
