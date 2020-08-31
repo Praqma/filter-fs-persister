@@ -250,6 +250,130 @@ let errorHTMLAsHTMLOut = {"log": {
         ]
     }
 }
+
+let withAuthToken = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "authorization",
+                            "value": "A very secret token"
+                        }
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [],
+                    "url": "the url"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+let filteredAuthToken = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+                        {
+                            "name": "authorization",
+                            "value": "Test token"
+                        }
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [],
+                    "url": "the url"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+let withRealId = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [
+                        {
+                            "name": "user_id",
+                            "value": "real_id"
+                        }
+                    ],
+                    "url": "the url"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+let withTestId = {
+    "log": {
+        "entries": [
+            {
+                "request": {
+                    "bodySize": 0,
+                    "cookies": [],
+                    "headers": [
+
+                    ],
+                    "headersSize": 198,
+                    "httpVersion": "HTTP/1.1",
+                    "method": "GET",
+                    "queryString": [
+                        {
+                            "name": "user_id",
+                            "value": "test id"
+                        }
+                        ],
+                    "url": "the url"
+                },
+                "response": {
+                    "content": {
+                        "mimeType": "text/html; charset=utf-8",
+                        "text": "<html><body>Error!</body></html>"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+
+
 describe('filter data', () => {
 
     it('does nothing without options', () =>{
@@ -302,5 +426,15 @@ describe('filter data', () => {
         let options = {filter: ['data']}
         const persister = new FilterFsPersister(new MockPolly(options))
         expect(persister.filterRecording(errorHTMLAsHTMLIn)).to.eql(errorHTMLAsHTMLOut)
+    })
+    it('can filter out request headers', ()=>{
+       let options = { filter: ['data'], substitute: {request:{headers:{authorization: 'Test token'}}}}
+       const persister = new FilterFsPersister(new MockPolly(options))
+       expect(persister.filterRecording(withAuthToken)).to.eql(filteredAuthToken)
+    })
+    it('can filter out request parameters', ()=>{
+        let options = { filter: ['data'], substitute: {request:{queryString:{user_id: 'test id'}}}}
+        const persister = new FilterFsPersister(new MockPolly(options))
+        expect(persister.filterRecording(withRealId)).to.eql(withTestId)
     })
 })

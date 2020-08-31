@@ -7,7 +7,16 @@ module.exports =  class FilteringFSPersister extends FSPersister {
   encounters;
 
   filterRecording(data) {
-    if(this.options && this.options.filter){
+    if(!this.options){
+      return data;
+    }
+    if(this.options.substitute){
+      data.log.entries.forEach((entry)=>{
+        this.substitute(this.options.substitute, entry);
+      })
+    }
+
+    if(this.options.filter){
       this.setupReplacementDictionary();
       data.log.entries.forEach((entry)=>{
         if(entry.response.content.mimeType.indexOf("application/json")>=0) {
@@ -25,6 +34,20 @@ module.exports =  class FilteringFSPersister extends FSPersister {
       })
     }
     return data;
+  }
+
+  substitute(options,entry) {
+    if(entry instanceof Array){
+      entry.forEach((parameter) => {
+        if (options[parameter.name]) {
+          parameter['value'] = options[parameter.name]
+        }
+      })
+    }else{
+      for( const [key, value ] of Object.entries(options)){
+        this.substitute(value, entry[key])
+      }
+    }
   }
 
   setupReplacementDictionary() {
@@ -67,6 +90,7 @@ module.exports =  class FilteringFSPersister extends FSPersister {
   static get id() {
     return 'filter-fs';
   }
+
 
   saveRecording(recordingId, data) {
     /*
