@@ -1,5 +1,4 @@
 const FSPersister  = require( "@pollyjs/persister-fs" )
-
 const { parse } = JSON;
 
 module.exports =  class FilteringFSPersister extends FSPersister {
@@ -10,30 +9,31 @@ module.exports =  class FilteringFSPersister extends FSPersister {
     if(!this.options){
       return data;
     }
-    if(this.options.substitute){
-      data.log.entries.forEach((entry)=>{
-        this.substitute(this.options.substitute, entry);
+    this.setupReplacementDictionary();
+    data.log.entries.forEach((entry)=>{
+        this.filterEntry(entry);
       })
-    }
-
-    if(this.options.filter){
-      this.setupReplacementDictionary();
-      data.log.entries.forEach((entry)=>{
-        if(entry.response.content.mimeType.indexOf("application/json")>=0) {
-          let text;
-          try {
-            text = JSON.parse(entry.response.content.text);
-          } catch (e) {
-            throw new Error(`${entry.response.content.text.substring(0, 20)}... can not be parsed as JSON!`)
-          }
-          let filtered = this.options.filter.reduce((acc, value) => {
-            return this.replaceWord(acc, value);
-          }, text)
-          entry.response.content.text = JSON.stringify(filtered)
-        }
-      })
-    }
     return data;
+  }
+
+  filterEntry(entry) {
+    if (this.options.substitute) {
+      this.substitute(this.options.substitute, entry);
+    }
+    if (this.options.filter) {
+      if (entry.response.content.mimeType.indexOf("application/json") >= 0) {
+        let text;
+        try {
+          text = JSON.parse(entry.response.content.text);
+        } catch (e) {
+          throw new Error(`${entry.response.content.text.substring(0, 20)}... can not be parsed as JSON!`)
+        }
+        let filtered = this.options.filter.reduce((acc, value) => {
+          return this.replaceWord(acc, value);
+        }, text)
+        entry.response.content.text = JSON.stringify(filtered)
+      }
+    }
   }
 
   substitute(options,entry) {
@@ -55,10 +55,12 @@ module.exports =  class FilteringFSPersister extends FSPersister {
 
 
   setupReplacementDictionary() {
-    this.encounters = new Map()
-    this.options.filter.forEach(item => {
-      this.encounters[item] = Array()
-    })
+    if(this.options.filter){
+      this.encounters = new Map()
+      this.options.filter.forEach(item => {
+        this.encounters[item] = Array()
+      })
+    }
   }
 
   replaceWord(acc, toReplace, encounters) {
@@ -95,7 +97,9 @@ module.exports =  class FilteringFSPersister extends FSPersister {
     return 'filter-fs';
   }
 
-
+  recordRequest(pollyRequest){
+    super.recordRequest(pollyRequest)
+  }
   saveRecording(recordingId, data) {
     /*
       Pass the data through the base persister's stringify method so
