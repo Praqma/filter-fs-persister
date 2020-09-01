@@ -11,15 +11,16 @@ module.exports =  class FilteringFSPersister extends FSPersister {
     }
     this.setupReplacementDictionary();
     data.log.entries.forEach((entry)=>{
+      if (this.options.substitute) {
+        this.substitute(this.options.substitute, entry);
+      }
         this.filterEntry(entry);
       })
     return data;
   }
 
   filterEntry(entry) {
-    if (this.options.substitute) {
-      this.substitute(this.options.substitute, entry);
-    }
+
     if (this.options.filter) {
       if (entry.response.content.mimeType.indexOf("application/json") >= 0) {
         let text;
@@ -98,6 +99,11 @@ module.exports =  class FilteringFSPersister extends FSPersister {
   }
 
   recordRequest(pollyRequest){
+    let entry = pollyRequest.response
+    if (this.options.substitute) {
+      this.substitute(this.options.substitute, entry);
+    }
+    pollyRequest.response = entry
     super.recordRequest(pollyRequest)
   }
   saveRecording(recordingId, data) {

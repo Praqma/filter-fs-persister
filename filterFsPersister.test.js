@@ -32,7 +32,7 @@ describe("FilterFsPersister",()=>{
     setupPolly({
         adapters: ['node-http'],
         persister: 'filter-fs',
-        recordIfMissing: true,
+        recordIfMissing: false,
         recordFailedRequests: false,
         matchRequestsBy: {
             order:false,
