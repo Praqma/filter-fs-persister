@@ -37,14 +37,14 @@ describe("FilterFsPersister",()=>{
         matchRequestsBy: {
             order:false,
             url: {
-                port:true
+                port:false
             }
         },
         persisterOptions: {
             'filter-fs': {
                 recordingsDir: path.resolve(__dirname, './recordings'),
                 filter: ['fullname','email','user', 'client', 'name','project', 'task','description'],
-                substitute:{request: {headers: {authorization: 'Test token'}}}
+                replace:{request: {headers: {authorization: 'Test token'}}}
             }
         }
     });
@@ -60,7 +60,19 @@ describe("FilterFsPersister",()=>{
             .then(d => data = d);
         await fetch('http://localhost:3001/',{headers:{authorization:'another token' }}).then(response => response.text())
             .then(d => data = d);
-        expect(data).to.eql('Hello World!')
+        await fetch('http://localhost:3001/',
+            {headers:{
+                'cache-control':"no-cache",
+                authorization:"Real token"}
+            }
+            ).then(response => response.text()).then(d=> data+= d)
+        await fetch('http://localhost:3001/',
+            {headers:{
+                    'cache-control':"no-cache",
+                    authorization:"Test token"}
+            }
+        ).then(response => response.text()).then(d=> data+= d)
+        expect(data).to.eql('Hello World!Hello World!Hello World!')
     })
 
 

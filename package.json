@@ -26,6 +26,8 @@
     "@pollyjs/adapter-fetch": "^4.3.0",
     "@pollyjs/adapter-node-http": "^4.3.0",
     "@pollyjs/core": "^4.3.0",
-    "@pollyjs/persister-fs": "^5.0.0"
+    "@pollyjs/persister-fs": "^5.0.0",
+    "blueimp-md5": "^2.17.0",
+    "fast-json-stable-stringify": "^2.1.0"
   }
 }

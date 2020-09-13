@@ -1,17 +1,7 @@
 'use strict'
 
-const FilterFsPersister = require('./filterFsPersister.js')
+const DataFilter = require('./dataFilter.js')
 const expect = require('chai').expect
-
-class MockPolly {
-    constructor(persisterOptions = {}) {
-        this.config = {
-            persisterOptions: {
-                'filter-fs': persisterOptions || {}
-            }
-        };
-    }
-}
 
 let oneEntryIn = {
     "log": {
@@ -390,48 +380,47 @@ let testUrl = {
 }
 
 
-describe('filter data', () => {
+describe('DataFilter', () => {
 
-    it('does nothing without options', () => {
-        const persister = new FilterFsPersister(new MockPolly())
-        expect(persister.filterRecording(oneEntryIn)).to.eql(replaceNothing)
+    it('does nothing with   out options', () => {
+        const dataFilter = new DataFilter({})
+        expect(dataFilter.filterData(oneEntryIn)).to.eql(replaceNothing)
     })
     it('filter email and use same replacement if value is the same ', () => {
         let options = {filter: ['email']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-
-        expect(persister.filterRecording(oneEntryIn)).to.eql(onlyReplaceEmail)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(oneEntryIn)).to.eql(onlyReplaceEmail)
     })
     it('filter email and fullname', () => {
         let options = {filter: ['email', 'fullname']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(oneEntryIn)).to.eql(replaceEmailAndFullname)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(oneEntryIn)).to.eql(replaceEmailAndFullname)
     })
     it('filter email and fullname for two entries', () => {
         let options = {filter: ['email', 'fullname']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(twoEntries)).to.eql(twoEntriesOut)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(twoEntries)).to.eql(twoEntriesOut)
     })
     it('filters client, user and project for with a path to the sensitive data', () => {
         let options = {filter: ['client', 'project', 'user']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(timeEntries)).to.eql(timeEntriesOut)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(timeEntries)).to.eql(timeEntriesOut)
     })
     it('filters when nested differently', () => {
         let options = {filter: ['client', 'project', 'user']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(deepNested)).to.eql(deepNestedOut)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(deepNested)).to.eql(deepNestedOut)
     })
     it('only replaces strings', () => {
         let options = {filter: ['data']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(keywordWithArray)).to.eql(keywordWithArrayOut)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(keywordWithArray)).to.eql(keywordWithArrayOut)
     })
     it('throws a nice error when trying to parse non JSON claimed to be JSON', () => {
         let options = {filter: ['data']}
-        const persister = new FilterFsPersister(new MockPolly(options))
+        const dataFilter = new DataFilter(options)
         try {
-            persister.filterRecording(errorHTMLAsJSON)
+            dataFilter.filterData(errorHTMLAsJSON)
             throw new Error('This error should not be thrown')
         } catch (error) {
             expect(error).to.be.instanceOf(Error)
@@ -440,22 +429,7 @@ describe('filter data', () => {
     })
     it('do not modify HTML', () => {
         let options = {filter: ['data']}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(errorHTMLAsHTMLIn)).to.eql(errorHTMLAsHTMLOut)
-    })
-    it('can filter out request headers', () => {
-        let options = {filter: ['data'], substitute: {request: {headers: {authorization: 'Test token'}}}}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(withAuthToken)).to.eql(filteredAuthToken)
-    })
-    it('can filter out request parameters', () => {
-        let options = {filter: ['data'], substitute: {request: {queryString: {user_id: 'test id'}}}}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(withRealId)).to.eql(withTestId)
-    })
-    it('can set another url', () => {
-        let options = {filter: ['data'], substitute: {request: {url: 'testUrl'}}}
-        const persister = new FilterFsPersister(new MockPolly(options))
-        expect(persister.filterRecording(secretURL)).to.eql(testUrl)
+        const dataFilter = new DataFilter(options)
+        expect(dataFilter.filterData(errorHTMLAsHTMLIn)).to.eql(errorHTMLAsHTMLOut)
     })
 })
