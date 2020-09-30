@@ -8,13 +8,21 @@ To filter out sensitive data from your recordings not to store them in version-c
 ## Function
 The sensitive words will be replaced with their key suffixed with the order they appear in.
 
-``` [{user: Foo, email: bar}{user: Foo, email: baz}]``` 
+```json
+[
+    {"user": "Foo", "email": "bar"},
+    {"user": "Foo", "email": "baz"}
+]
+``` 
 
 is turned into
 
-
-``` [{user: user 1, email: email 1}{user: user 1, email: email 2}]``` 
-
+```json
+[
+    {"user": "user 1", "email": "email 1"},
+    {"user": "user 1", "email": "email 2"}
+]
+```
 
 ## Prerequisites
 
